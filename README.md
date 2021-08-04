@@ -17,7 +17,7 @@ Please create a new Laravel 8 application that fulfills the following functional
 1. A user can add people
 2. A user can connect people together as families
 3. A user can see a family tree to any particular Person in the application 
-4. Each time a new person is added, a new Notification should be dispatched to this Slack webhook: https://hooks.slack.com/services/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 - use Laravel Notifications and this Slack notification package: https://github.com/laravel/slack-notification-channel
+4. Each time a new person is added, a new Notification should be dispatched to a Slack webhook. Please PM Rob on Slack for the webhook - use Laravel Notifications and this Slack notification package: https://github.com/laravel/slack-notification-channel
 
 ## Task Requirements
 
