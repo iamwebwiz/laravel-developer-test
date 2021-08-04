@@ -2,7 +2,7 @@
 
 ## Goal
 
-Please spend no more than 5 hours on this task.  If you cannot complete the entire task in less than 5 hours, please commit what you are able to finish within that time frame.
+Please spend no more than 5 hours on this task.  If you cannot complete the entire task in less than 5 hours, please commit what you are able to finish within that time frame. This is an API test only. No frontend component.
 
 ## Delivery
 
@@ -22,7 +22,8 @@ Please create a new Laravel 8 application that fulfills the following functional
 ## Task Requirements
 
 1. Please use Laravel 8
-2. Please test as you would in your own applications. PHPUnit or Pest are fine.
+2. Everything should be done the "Laravel way" and following our coding standards here: https://64robots.notion.site/Backend-f19f189aa0964f4eb5d416785a72ac04
+3. Please test as you would in your own applications. PHPUnit or Pest are fine. 
 
 ## Task Details
 
