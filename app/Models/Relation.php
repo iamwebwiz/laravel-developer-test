@@ -19,12 +19,6 @@ class Relation extends Model
     protected $visible = ['relative_id', 'relationship', 'spouse', 'mother', 'father'];
     protected $primaryKey = 'person_id';
 
-    protected const RELATIONSHIPS = [
-        'SPOUSE' => 'spouse',
-        'FATHER' => 'father',
-        'MOTHER' => 'mother',
-    ];
-
     /******************************************
      ************* RELATIONS ******************
      *****************************************/
@@ -33,21 +27,8 @@ class Relation extends Model
         return $this->belongsTo(Person::class);
     }
 
-    public function spouse(): HasOne
+    public function relative(): HasOne
     {
-        return $this->hasOne(Person::class, 'id', 'relative_id')
-            ->where('relationship', self::RELATIONSHIPS['SPOUSE']);
-    }
-
-    public function mother(): HasOne
-    {
-        return $this->hasOne(Person::class, 'id', 'relative_id')
-            ->where('relationship', self::RELATIONSHIPS['MOTHER']);
-    }
-
-    public function father(): HasOne
-    {
-        return $this->hasOne(Person::class, 'id', 'relative_id')
-            ->where('relationship', self::RELATIONSHIPS['FATHER']);
+        return $this->hasOne(Person::class, 'id', 'relative_id');
     }
 }

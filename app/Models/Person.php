@@ -16,6 +16,7 @@ class Person extends Model
     protected $guarded = ['id'];
     protected $fillable = ['first_name', 'last_name'];
     protected $hidden = ['id', 'deleted_at'];
+    protected $visible = ['relations', 'first_name', 'last_name'];
     protected $dates = ['deleted_at'];
 
     /*************************************
