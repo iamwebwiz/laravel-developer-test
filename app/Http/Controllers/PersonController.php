@@ -28,7 +28,7 @@ class PersonController extends Controller
         return response()->json([
             'success' => !!$person,
             'message' => 'Family member details fetched.',
-            'data' => $person ?: null,
+            'data' => new PersonResource($person) ?: null,
         ]);
     }
 

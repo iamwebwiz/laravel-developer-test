@@ -16,7 +16,7 @@ class Relation extends Model
     protected $guarded = ['id'];
     protected $dates = ['deleted_at'];
     protected $fillable = ['person_id', 'relative_id', 'relationship'];
-    protected $visible = ['relative_id', 'relationship', 'spouse', 'mother', 'father'];
+    protected $visible = ['relative_id', 'relationship', 'relative'];
     protected $primaryKey = 'person_id';
 
     /******************************************

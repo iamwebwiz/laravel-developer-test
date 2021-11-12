@@ -11,7 +11,7 @@ class PersonResource extends JsonResource
         return [
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'relations' => $this->relations,
+            'relations' => RelationResource::collection($this->relations),
         ];
     }
 }
