@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Person extends Model
@@ -15,7 +15,7 @@ class Person extends Model
     public $timestamps = false;
     protected $guarded = ['id'];
     protected $fillable = ['first_name', 'last_name'];
-    protected $hidden = ['deleted_at'];
+    protected $hidden = ['id', 'deleted_at'];
     protected $dates = ['deleted_at'];
 
     /*************************************
@@ -29,8 +29,20 @@ class Person extends Model
     /*************************************
      *********** RELATIONS ***************
      ************************************/
-    public function relation(): HasOne
+    public function relations(): HasMany
     {
-        return $this->hasOne(Relation::class);
+        return $this->hasMany(Relation::class);
     }
+
+    /*************************************
+     *********** CRUD ********************
+     ************************************/
+    public static function createPerson(array $fields)
+    {
+        return self::create($fields);
+    }
+
+    /*************************************
+     *********** HELPERS *****************
+     ************************************/
 }

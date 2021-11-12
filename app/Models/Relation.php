@@ -15,9 +15,15 @@ class Relation extends Model
     public $timestamps = false;
     protected $guarded = ['id'];
     protected $dates = ['deleted_at'];
-    protected $fillable = ['spouse_id', 'mother_id', 'father_id'];
-    protected $visible = ['spouse_id', 'mother_id', 'father_id', 'spouse', 'mother', 'father'];
+    protected $fillable = ['person_id', 'relative_id', 'relationship'];
+    protected $visible = ['relative_id', 'relationship', 'spouse', 'mother', 'father'];
     protected $primaryKey = 'person_id';
+
+    protected const RELATIONSHIPS = [
+        'SPOUSE' => 'spouse',
+        'FATHER' => 'father',
+        'MOTHER' => 'mother',
+    ];
 
     /******************************************
      ************* RELATIONS ******************
@@ -29,16 +35,19 @@ class Relation extends Model
 
     public function spouse(): HasOne
     {
-        return $this->hasOne(Person::class, 'id', 'spouse_id');
+        return $this->hasOne(Person::class, 'id', 'relative_id')
+            ->where('relationship', self::RELATIONSHIPS['SPOUSE']);
     }
 
     public function mother(): HasOne
     {
-        return $this->hasOne(Person::class, 'id', 'mother_id');
+        return $this->hasOne(Person::class, 'id', 'relative_id')
+            ->where('relationship', self::RELATIONSHIPS['MOTHER']);
     }
 
     public function father(): HasOne
     {
-        return $this->hasOne(Person::class, 'id', 'father_id');
+        return $this->hasOne(Person::class, 'id', 'relative_id')
+            ->where('relationship', self::RELATIONSHIPS['FATHER']);
     }
 }

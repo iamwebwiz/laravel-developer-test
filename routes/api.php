@@ -17,4 +17,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('people')->group(function () {
     Route::get('/', [PersonController::class, 'list']);
+    Route::get('{id}', [PersonController::class, 'get']);
+    Route::post('create', [PersonController::class, 'create']);
 });

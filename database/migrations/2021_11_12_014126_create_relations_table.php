@@ -11,9 +11,8 @@ class CreateRelationsTable extends Migration
     {
         Schema::create('relations', function (Blueprint $table) {
             $table->foreignIdFor(Person::class)->constrained('people');
-            $table->unsignedBigInteger('spouse_id')->nullable();
-            $table->unsignedBigInteger('mother_id')->nullable();
-            $table->unsignedBigInteger('father_id')->nullable();
+            $table->foreignIdFor(Person::class, 'relative_id')->constrained('people');
+            $table->string('relationship');
             $table->softDeletes();
         });
     }
