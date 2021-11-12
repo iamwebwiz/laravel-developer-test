@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('people')->group(function () {
     Route::get('/', [PersonController::class, 'list']);
+    Route::post('create', [PersonController::class, 'create']);
     Route::get('{id}', [PersonController::class, 'get']);
     Route::get('{id}/tree', [PersonController::class, 'getTree']);
-    Route::post('create', [PersonController::class, 'create']);
     Route::put('{id}/update', [PersonController::class, 'update']);
     Route::post('{id}/add', [PersonController::class, 'add']);
     Route::delete('{id}/remove', [PersonController::class, 'remove']);

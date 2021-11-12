@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ConnectPeopleRequest;
 use App\Http\Requests\CreatePersonRequest;
 use App\Http\Resources\PersonResource;
 use App\Models\Person;
 use App\Notifications\PersonCreatedNotification;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 
 class PersonController extends Controller
@@ -16,6 +16,7 @@ class PersonController extends Controller
     {
         return response()->json([
             'success' => true,
+            'message' => 'List of all people',
             'data' => PersonResource::collection(Person::with('relations')->get()),
         ]);
     }
@@ -26,6 +27,7 @@ class PersonController extends Controller
 
         return response()->json([
             'success' => !!$person,
+            'message' => 'Family member details fetched.',
             'data' => $person ?: null,
         ]);
     }
@@ -44,18 +46,34 @@ class PersonController extends Controller
 
         return response()->json([
             'success' => true,
+            'message' => 'New family member has been created.',
             'data' => new PersonResource($person),
         ]);
     }
 
     public function update(CreatePersonRequest $request, int $id)
     {
-        //
+        $person = Person::find($id);
+        $person->update($request->all());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Family member has been updated.',
+            'data' => $person,
+        ]);
     }
 
-    public function add(Request $request, int $id)
+    public function add(ConnectPeopleRequest $request, int $id)
     {
-        //
+        $person = Person::find($id);
+
+        $person->connectRelationToPerson($request->all());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Relations have been added to family member.',
+            'data' => $person,
+        ]);
     }
 
     public function remove(int $id)
@@ -64,6 +82,7 @@ class PersonController extends Controller
 
         return response()->json([
             'success' => true,
+            'message' => 'Successfully removed family member.',
             'data' => null,
         ]);
     }

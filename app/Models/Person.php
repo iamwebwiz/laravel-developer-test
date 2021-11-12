@@ -46,4 +46,21 @@ class Person extends Model
     /*************************************
      *********** HELPERS *****************
      ************************************/
+    public function connectRelationToPerson(array $input)
+    {
+        foreach ($input['relations'] as $relation) {
+            $relative = Relation::firstOrCreate(
+                ['person_id' => $this->id],
+                ['relative_id' => $relation['relative_id'], 'relationship' => $relation['relationship']]
+            );
+
+            if ($relative->relationship == 'spouse') {
+                $relative->relations()->firstOrCreate([
+                    'person_id' => $relative->id,
+                    'relative_id' => $this->id,
+                    'relationship' => 'spouse',
+                ]);
+            }
+        }
+    }
 }
