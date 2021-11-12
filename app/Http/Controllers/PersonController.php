@@ -7,7 +7,6 @@ use App\Http\Resources\PersonResource;
 use App\Models\Person;
 use App\Notifications\PersonCreatedNotification;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 
 class PersonController extends Controller
