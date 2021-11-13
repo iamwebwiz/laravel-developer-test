@@ -49,12 +49,13 @@ class Person extends Model
     public function connectRelationToPerson(array $input)
     {
         foreach ($input['relations'] as $relation) {
-            $relative = Relation::firstOrCreate(
+            Relation::firstOrCreate(
                 ['person_id' => $this->id],
                 ['relative_id' => $relation['relative_id'], 'relationship' => $relation['relationship']]
             );
 
-            if ($relative->relationship == 'spouse') {
+            if ($relation['relationship'] == 'spouse') {
+                $relative = static::find($relation['relative_id']);
                 $relative->relations()->firstOrCreate([
                     'person_id' => $relative->id,
                     'relative_id' => $this->id,
@@ -62,5 +63,10 @@ class Person extends Model
                 ]);
             }
         }
+    }
+
+    public function isRelatedTo(int $relativeId)
+    {
+        return Relation::wherePersonId($this->id)->whereRelativeId($relativeId)->exists();
     }
 }

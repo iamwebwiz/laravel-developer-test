@@ -69,3 +69,32 @@ it('can update the details of a person', function () {
         'last_name' => 'Oladejo',
     ]);
 });
+
+/**
+ * DELETE "/api/people/{person}/remove"
+ */
+it('can remove a family member', function () {
+    Person::factory(5)->create();
+
+    $this->deleteJson('/api/people/1/remove')
+        ->assertJson(['success' => true, 'message' => 'Successfully removed family member.']);
+
+    expect(Person::count())->toBe(4);
+});
+
+/**
+ * POST "/api/people/{person}/add"
+ */
+it('can connect people as families', function () {
+    $people = Person::factory(3)->create();
+
+    $this->postJson("/api/people/{$people[0]->id}/add", [
+        'relations' => [['relative_id' => $people[1]->id, 'relationship' => 'spouse']]
+    ])->assertStatus(200)->assertJson(['success' => true])->assertJsonStructure([
+        'success', 'message', 'data' => ['relations' => [['relative', 'relationship']]]
+    ]);
+
+    expect($people[0]->isRelatedTo($people[1]->id))->toBe(true);
+    expect($people[0]->isRelatedTo($people[2]->id))->toBe(false);
+    expect($people[1]->isRelatedTo($people[2]->id))->toBe(false);
+});

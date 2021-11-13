@@ -72,7 +72,7 @@ class PersonController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Relations have been added to family member.',
-            'data' => $person,
+            'data' => new PersonResource($person),
         ]);
     }
 
