@@ -33,3 +33,48 @@ For the sake of the test, you will be evaluated solely on two items:
 2. Your tests
 
 The most important part is that we should be able to quickly look at and understand how you write code and how it jives with our coding standards. 
+
+## Setup
+- Clone the repository and change current directory to the cloned directory
+
+Copy the contents of `.env.example` to `.env`
+```shell
+cp .env.example .env
+```
+
+Install dependencies
+```shell
+composer install
+```
+
+Generate application key
+```shell
+php artisan key:generate
+```
+
+Update the value of the environment variable `SLACK_INCOMING_WEBHOOK_URI` to actual Slack webhook URL
+
+Update the database configurations to suit your environment
+```shell
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Serve the application
+```shell
+php artisan serve
+```
+
+Testing out the endpoints can be done using [Postman](https://postman.com).
+
+## Automated Testing
+Tests are written using [PestPHP](https://pestphp.com).
+
+Run the following on your terminal to run the automated tests
+```shell
+composer test
+```
