@@ -34,7 +34,13 @@ class PersonController extends Controller
 
     public function getTree(int $id)
     {
-        //
+        $person = Person::find($id);
+
+        return response()->json([
+            'success' => true,
+            'message' => sprintf('Family tree for [%s] fetched', $person->fullName),
+            'data' => $person->buildFamilyTree(),
+        ]);
     }
 
     public function create(CreatePersonRequest $request): JsonResponse

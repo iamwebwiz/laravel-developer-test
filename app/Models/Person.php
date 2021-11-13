@@ -38,7 +38,7 @@ class Person extends Model
     /*************************************
      *********** CRUD ********************
      ************************************/
-    public static function createPerson(array $fields)
+    public static function createPerson(array $fields): self
     {
         return self::create($fields);
     }
@@ -46,7 +46,7 @@ class Person extends Model
     /*************************************
      *********** HELPERS *****************
      ************************************/
-    public function connectRelationToPerson(array $input)
+    public function connectRelationToPerson(array $input): void
     {
         foreach ($input['relations'] as $relation) {
             Relation::firstOrCreate(
@@ -65,8 +65,26 @@ class Person extends Model
         }
     }
 
-    public function isRelatedTo(int $relativeId)
+    public function isRelatedTo(int $relativeId): bool
     {
         return Relation::wherePersonId($this->id)->whereRelativeId($relativeId)->exists();
+    }
+
+    public function buildFamilyTree(): array
+    {
+        $tree = [];
+
+        $tree['name'] = $this->fullName;
+
+        $relations = Relation::wherePersonId($this->id)->get();
+
+        foreach ($relations as $relation) {
+            $tree['family'][] = [
+                'name' => $relation->relative->fullName,
+                'relationship' => $relation->relationship,
+            ];
+        }
+
+        return $tree;
     }
 }

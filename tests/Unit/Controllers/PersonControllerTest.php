@@ -1,11 +1,13 @@
 <?php
 
 use App\Models\Person;
+use App\Models\Relation;
 use App\Notifications\PersonCreatedNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
+use function Pest\Laravel\get;
 
 uses(TestCase::class, RefreshDatabase::class);
 
@@ -97,4 +99,19 @@ it('can connect people as families', function () {
     expect($people[0]->isRelatedTo($people[1]->id))->toBe(true);
     expect($people[0]->isRelatedTo($people[2]->id))->toBe(false);
     expect($people[1]->isRelatedTo($people[2]->id))->toBe(false);
+});
+
+/**
+ * GET "/api/people/{person}/tree"
+ */
+it('can display the family tree of a person', function () {
+    $person = Person::factory()->create();
+    Relation::factory(3)->create(['person_id' => $person->id]);
+
+    get("/api/people/{$person->id}/tree")
+        ->assertStatus(200)
+        ->assertJson([
+            'success' => true,
+            'data' => $person->buildFamilyTree(),
+        ]);
 });
