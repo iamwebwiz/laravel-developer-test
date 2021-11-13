@@ -32,7 +32,7 @@ class PersonController extends Controller
         ]);
     }
 
-    public function getTree(int $id)
+    public function getTree(int $id): JsonResponse
     {
         $person = Person::find($id);
 
@@ -48,7 +48,7 @@ class PersonController extends Controller
         $person = Person::createPerson($request->all());
 
         Notification::route('slack', env('SLACK_INCOMING_WEBHOOK_URI'))
-            ->notify(new PersonCreatedNotification($person, '@Ezekiel'));
+            ->notify(new PersonCreatedNotification($person));
 
         return response()->json([
             'success' => true,
