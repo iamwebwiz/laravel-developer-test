@@ -51,7 +51,7 @@ class PersonController extends Controller
         ]);
     }
 
-    public function update(CreatePersonRequest $request, int $id)
+    public function update(CreatePersonRequest $request, int $id): JsonResponse
     {
         $person = Person::find($id);
         $person->update($request->all());
@@ -63,7 +63,7 @@ class PersonController extends Controller
         ]);
     }
 
-    public function add(ConnectPeopleRequest $request, int $id)
+    public function add(ConnectPeopleRequest $request, int $id): JsonResponse
     {
         $person = Person::find($id);
 
@@ -76,7 +76,7 @@ class PersonController extends Controller
         ]);
     }
 
-    public function remove(int $id)
+    public function remove(int $id): JsonResponse
     {
         Person::find($id)->delete();
 
