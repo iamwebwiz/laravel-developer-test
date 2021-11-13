@@ -54,8 +54,18 @@ it('can create a person and send a Slack notification', function () {
 it('can update the details of a person', function () {
     Person::factory(5)->create();
 
-    $this->putJson('/api/people/1/update', [
+    $response = $this->putJson('/api/people/1/update', [
         'first_name' => 'Ezekiel',
         'last_name' => 'Oladejo',
-    ])->dump()->assertStatus(200)->assertJsonStructure(['success', 'message', 'data']);
+    ])->assertStatus(200)->assertJsonStructure(['success', 'message', 'data']);
+
+    $response = json_decode($response->getContent());
+
+    expect($response->data->first_name)->toBe('Ezekiel');
+    expect($response->message)->toBe('Family member has been updated.');
+
+    $this->assertDatabaseHas('people', [
+        'first_name' => 'Ezekiel',
+        'last_name' => 'Oladejo',
+    ]);
 });
